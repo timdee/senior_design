@@ -1,4 +1,17 @@
-<html><body><h1>It Still works!</h1>
-<p>This is the default web page for this server.</p>
-<p>The web server software is running but no content has been added, yet.</p>
+<html><body><h1>Change Voltage and Frequency:</h1>
+<p>Change the value in the text box then press the update button.</p>
+
+<form action="/cgi-bin/update.py" method "post">
+<div>
+  Voltage: <input type="text" name="voltage"></input>V
+  <!-- <button type="button" href="./cgi-bin/update.py?update_voltage=true&update_frequency=false&voltage=0&frequency=0"> Update Voltage </button> -->
+</div>
+
+<div>
+  Frequency: <input type="text" name="frequency"></input>Khz
+  <!-- <button type="button" href="./cgi-bin/update.py?update_voltage=false&update_frequency=true&voltage=0&frequency=0"> Update Voltage </button> -->
+  <input type="submit" value="update" />
+</div>
+</form>
+
 </body></html>
