@@ -2,6 +2,7 @@
 
 import cgi
 import cgitb
+import update_voltage_frequency
 
 # create instance of field storage to get values
 parameters = cgi.FieldStorage()
@@ -12,6 +13,10 @@ parameters = cgi.FieldStorage()
 
 voltage_value = parameters.getvalue('voltage')
 frequency_value = parameters.getvalue('frequency')
+
+# Update the frequency and voltage
+update_voltage_frequency.update_voltage(voltage_value)
+update_voltage_frequency.update_frequency(frequency_value)
 
 # This script is designed to count as a test
 print "Content-type:text/html\r\n\r\n"
