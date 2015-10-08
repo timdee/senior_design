@@ -11,7 +11,7 @@ class voltage_regulator:
     #self.op1_r0 = 0
     #self.op1_r1 = 1
 
-  # variable resistors will most likly use I2c
+  # variable resistors will use spi as well
   def set_voltage(self, voltage):
     # compute the resistor values
     self.compute_resistor_values(voltage)
