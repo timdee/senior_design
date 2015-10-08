@@ -8,8 +8,10 @@ class minigen:
   def __init__(self):
     self.spi = spidev.SpiDev()
     self.spi.open(0, 0)
-    
-    self.reset()
+   
+    while(True):  
+      self.spi.writebytes([0xAC,0xFF])
+      #self.reset()
 
   # reset the minigen to a known state
   def reset(self):
@@ -18,11 +20,11 @@ class minigen:
     # set the values of the config registers
     self.config_register = 0x0000
 
-    # set the minigen to the default frequency
-    adjust_frequency(default_frequency)
+    # set the minigen to the default frequency 
+    self.set_frequency(default_frequency)
 
   # Right now this only does sine
-  def set_mode(mode='sine'):
+  def set_mode(self, mode='sine'):
     # set the minigen to produce sine wave
     if mode == 'sine':
       pass
