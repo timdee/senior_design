@@ -39,6 +39,11 @@ class minigen:
   def adjust_phase_shift(self, reg, new_phase):
     pass
 
+  # decides how to set the frequency in the minigen
+  def set_frequency(self, new_frequency):
+    #TODO
+    pass
+
   # set the minigen to the new_frequency
   def adjust_frequency(self, reg, new_frequency):
     pass
