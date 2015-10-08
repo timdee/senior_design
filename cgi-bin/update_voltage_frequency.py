@@ -28,7 +28,7 @@ def update_voltage(voltage):
   vr = voltage_regulator()
 
   # ask vr to set the voltage to the given value
-  vr.set_voltage(voltage)
+  #TODO vr.set_voltage(voltage)
 
   # preform cleanup actions
   vr.close_regulator()
