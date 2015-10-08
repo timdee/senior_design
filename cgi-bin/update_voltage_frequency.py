@@ -25,13 +25,13 @@ def update_voltage(voltage):
   #print 'voltage updated'
 
   # make an instance of the voltage_regulator class to handle the connection
-  vr = voltage_regulator()
+  #TODO vr = voltage_regulator()
 
   # ask vr to set the voltage to the given value
   #TODO vr.set_voltage(voltage)
 
   # preform cleanup actions
-  vr.close_regulator()
+  #TODO vr.close_regulator()
 
 # Update the frequency to the specified value. Values are given in Khz.
 def update_frequency(frequency):
@@ -41,7 +41,7 @@ def update_frequency(frequency):
   m = minigen()
 
   # ask the minigen to set the new frequency
-  m.set_frequency(frequency)
+  #TODO m.set_frequency(frequency)
 
   #close the conection
   m.close_connection()
