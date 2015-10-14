@@ -1,6 +1,7 @@
 #! /usr/bin/python2.7
 
 import spidev
+import time
 
 # Designed to provide some of the functionality from SparkFun_MiniGen.cpp
 # designed so that you only need to use set_frequency to set the frequency
@@ -13,7 +14,7 @@ class minigen:
     self.reset()
    
     #while(True):  
-     # self.spi.writebytes([0xAC,0xFF])
+      #self.spi.writebytes([0xAC,0xFF])
 
   def write_config_register(self):
     # send high bits than low bits
@@ -40,8 +41,8 @@ class minigen:
     self.set_mode()
 
     # set the phase shift of both phase registers to 0
-    adjust_phase_shift('phase0', 0x0000)
-    adjust_phase_shift('phase1', 0x0000)
+    self.adjust_phase_shift('phase0', 0x0000)
+    self.adjust_phase_shift('phase1', 0x0000)
 
     # set the minigen to the default frequency 
     # doing this twice sets both frequency registers to default_frequency
@@ -59,13 +60,13 @@ class minigen:
 
     # set the minigen to produce sine wave
     if mode == 'sine':
-      self.configReg |= 0x0000
+      self.config_register |= 0x0000
     elif mode == 'triangle':
-      self.configReg |= 0x0002
+      self.config_register |= 0x0002
     elif mode == 'square_2':  
-      self.configReg |= 0x0020
+      self.config_register |= 0x0020
     elif mode == 'square':
-      self.configReg |= 0x0028
+      self.config_register |= 0x0028
 
     self.write_config_register()
 
@@ -139,10 +140,14 @@ class minigen:
   def adjust_frequency(self, reg, new_frequency):
     # in full mode we write out to two different registers
     # grab the lower 16 bits of new_frequency, clear first 2 bits
-    temp_low_bits = (new_frequency & 0xFFFF) & ~0xC000 
+    temp_low_bits = (int(new_frequency) & 0xFFFF) & ~0xC000 
 
     # grab the upper 16 bits of new_frequency, clear first 2 bits
-    temp_high_bits = ( (new_frequency >> 16) & 0xFFFF ) & ~0xC000
+    temp_high_bits = ( (int(new_frequency) >> 14) ) & ~0xC000
+
+    #print new_frequency
+    #print temp_low_bits.bit_length()
+    #print temp_high_bits.bit_length()
 
     # set the top two bits based on the reg parameter
     if reg == 'freq0':
@@ -156,6 +161,9 @@ class minigen:
     # send high bits than low bits
     high_bits = (temp_low_bits >> 8) & 0xFF
     low_bits = temp_low_bits & 0xFF
+
+    print high_bits
+    print low_bits
 
     self.spi.writebytes([high_bits, low_bits])
 
@@ -181,7 +189,21 @@ def main():
   print 'running in test mode'
   m = minigen()
 
-  print m.frequency_calculation(100.0)
+  #m.set_mode('square')
+  m.set_mode('sine')
+
+  m.set_frequency(100)
+  time.sleep(5)
+  m.set_frequency(100)
+
+  #for i in range(0,20):
+   # m.set_frequency(200)
+    #time.sleep(3)
+  
+  #while(True):
+  #  m.set_frequency(200)
+
+  #print m.frequency_calculation(100.0)
 
   m.close_connection()
 
