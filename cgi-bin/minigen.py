@@ -125,11 +125,11 @@ class minigen:
     # set the next frequency register to be the other register
     if(self.frequency_register == 'freq0'):
       # set up 'freq1'
-      self.adjust_frequency('freq1', new_frequency)
+      self.adjust_frequency('freq1', frequency)
       self.frequency_register = 'freq1'
     else:
       # set up 'freq0'
-      self.adjust_frequency('freq0', new_frequency)
+      self.adjust_frequency('freq0', frequency)
       self.frequency_register = 'freq0'
 
     # set the minigen to use the frequency register we just set
@@ -143,9 +143,9 @@ class minigen:
     temp_low_bits = (int(new_frequency) & 0xFFFF) & ~0xC000 
 
     # grab the upper 16 bits of new_frequency, clear first 2 bits
-    temp_high_bits = ( (int(new_frequency) >> 14) ) & ~0xC000
+    temp_high_bits = ( (int(new_frequency) >> 16) ) & ~0xC000
 
-    #print new_frequency
+    print new_frequency
     #print temp_low_bits.bit_length()
     #print temp_high_bits.bit_length()
 
@@ -192,9 +192,9 @@ def main():
   #m.set_mode('square')
   m.set_mode('sine')
 
-  m.set_frequency(100)
+  #m.set_frequency(500)
   time.sleep(5)
-  m.set_frequency(100)
+  #m.set_frequency(100)
 
   #for i in range(0,20):
    # m.set_frequency(200)
