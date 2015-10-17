@@ -95,8 +95,15 @@ class minigen:
   # sets the mode for frequency generation.
   # only full mode is provided right now.
   def set_frequency_adjust_mode(self, new_mode='full'):
+    # clear the bits related to the frequency adjust mode
+    self.config_register &= ~0x3000
+
     if new_mode == 'full':
       self.config_register |= 0x2000
+    if new_mode == 'coarse':
+      self.config_register |= 0x1000
+
+    # fine adjustment mode is set by leaving the bits cleared
 
     self.write_config_register()
 
@@ -118,26 +125,36 @@ class minigen:
   # decides how to set the frequency in the minigen
   # does the frequency calculation,
   # then sets the frequency
-  def set_frequency(self, new_frequency):
+  def set_frequency(self, new_frequency, mode='full'):
+    # set the frequency adjust mode
+    self.set_frequency_adjust_mode(mode)
+
+    # preform the frequency calculation
     frequency = self.frequency_calculation(new_frequency)
 
     # set the values in the frequency register that is not being used
     # set the next frequency register to be the other register
     if(self.frequency_register == 'freq0'):
       # set up 'freq1'
-      self.adjust_frequency('freq1', frequency)
       self.frequency_register = 'freq1'
     else:
       # set up 'freq0'
-      self.adjust_frequency('freq0', frequency)
       self.frequency_register = 'freq0'
+
+    # decide what method to use based on the mode
+    if mode == 'full':
+      self.adjust_frequency_full(self.frequency_register, frequency)
+    elif mode == 'coarse':
+      self.adjust_frequency_coarse_fine(self.frequency_register, frequency)
+    elif mode == 'fine':
+      self.adjust_frequency_coarse_fine(self.frequency_register, frequency)
 
     # set the minigen to use the frequency register we just set
     self.select_frequency_reg(self.frequency_register)
 
   # set the minigen to the new_frequency
   # can assume the mode is set to full because that is the only mode we provided
-  def adjust_frequency(self, reg, new_frequency):
+  def adjust_frequency_full(self, reg, new_frequency):
     # in full mode we write out to two different registers
     # grab the lower 16 bits of new_frequency, clear first 2 bits
     temp_low_bits = (int(new_frequency) & 0xFFFF) & ~0xC000 
@@ -145,7 +162,7 @@ class minigen:
     # grab the upper 16 bits of new_frequency, clear first 2 bits
     temp_high_bits = ( (int(new_frequency) >> 16) ) & ~0xC000
 
-    print new_frequency
+    #print new_frequency
     #print temp_low_bits.bit_length()
     #print temp_high_bits.bit_length()
 
@@ -174,6 +191,24 @@ class minigen:
 
     self.spi.writebytes([high_bits, low_bits])
 
+  # adjust the frequency. Assume freq adjust mode is already coarse or fine
+  def adjust_frequency_coarse_fine(self, reg, new_frequency):
+    # blank first two bits
+    new_frequency &= ~0xC000
+
+    # set the top two bits according to the reg parameter
+    if reg == 'freq0':
+      new_frequency |= 0x4000
+    else:
+      new_frequency |= 0x8000
+
+    # write the bits out
+    # send high bits than low bits
+    high_bits = (new_frequency >> 8) & 0xFF
+    low_bits = new_frequency & 0xFF
+
+    self.spi.writebytes([high_bits, low_bits])
+
   def close_connection(self):
     self.spi.close()
 
@@ -192,8 +227,9 @@ def main():
   #m.set_mode('square')
   m.set_mode('sine')
 
-  #m.set_frequency(500)
-  time.sleep(5)
+  m.set_frequency(500, 'coarse')
+  #m.set_frequency(1000, 'fine')
+  #time.sleep(5)
   #m.set_frequency(100)
 
   #for i in range(0,20):
