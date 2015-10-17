@@ -9,15 +9,14 @@ class minigen:
   # initialize the connection with the minigen
   def __init__(self):
     self.spi = spidev.SpiDev()
+
+    # open(bus, device)
     self.spi.open(0, 0)
 
     # minigen is driven at 40Mhz
     self.spi.max_speed_hz = 40000000
 
     self.reset()
-   
-    #while(True):  
-      #self.spi.writebytes([0xAC,0xFF])
 
   def write_config_register(self):
     # send high bits than low bits

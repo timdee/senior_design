@@ -41,7 +41,7 @@ def update_frequency(frequency):
   m = minigen()
 
   # ask the minigen to set the new frequency
-  m.set_frequency(frequency)
+  #m.set_frequency(frequency)
 
   #close the conection
   m.close_connection()
