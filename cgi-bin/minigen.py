@@ -11,6 +11,9 @@ class minigen:
     self.spi = spidev.SpiDev()
     self.spi.open(0, 0)
 
+    # minigen is driven at 40Mhz
+    self.spi.max_speed_hz = 40000000
+
     self.reset()
    
     #while(True):  
