@@ -22,23 +22,24 @@ def main():
 # This is not the voltage output by the minigen,
 # Instead it is the voltage output by the circuit as a whole.
 def update_voltage(voltage):
+  pass
   #print 'voltage updated'
 
   # make an instance of the voltage_regulator class to handle the connection
-  vr = voltage_regulator()
+#  vr = voltage_regulator.voltage_regulator()
 
   # ask vr to set the voltage to the given value
-  #vr.set_voltage(voltage)
+#  vr.set_voltage(voltage)
 
   # preform cleanup actions
-  vr.close_regulator()
+#  vr.close_regulator()
 
 # Update the frequency to the specified value. Values are given in Khz.
 def update_frequency(frequency):
   #print 'frequency updated'
 
   # make an instance of the minigen class to handle the connection
-  m = minigen()
+  m = minigen.minigen()
 
   # ask the minigen to set the new frequency
   #m.set_frequency(frequency)

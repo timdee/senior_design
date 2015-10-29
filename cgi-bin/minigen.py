@@ -181,8 +181,8 @@ class minigen:
     high_bits = (temp_low_bits >> 8) & 0xFF
     low_bits = temp_low_bits & 0xFF
 
-    print high_bits
-    print low_bits
+    #print high_bits
+    #print low_bits
 
     self.spi.writebytes([high_bits, low_bits])
 
