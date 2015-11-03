@@ -229,8 +229,8 @@ def main():
   print 'running in test mode'
   m = minigen()
 
-  #m.set_mode('square')
-  m.set_mode('sine')
+  m.set_mode('square')
+  #m.set_mode('sine')
 
   m.set_frequency(250, 'coarse')
   #m.set_frequency(1000, 'fine')
