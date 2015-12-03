@@ -30,17 +30,17 @@ def update_voltage(voltage):
   #print 'voltage updated'
 
   # make an instance of the voltage_regulator class to handle the connection
-#  vr = voltage_regulator.voltage_regulator()
+  vr = voltage_regulator.voltage_regulator()
   vr = get_pickle_digital_pot()
 
   # ask vr to set the voltage to the given value
 #  vr.set_voltage(voltage)
 
   # update pickled information
-  set_pickle_digital_pot(vr)
+  ###set_pickle_digital_pot(vr)
 
   # preform cleanup actions
-#  vr.close_regulator()
+  vr.close_regulator()
 
 # Update the frequency to the specified value. Values are given in Khz.
 def update_frequency(frequency):
@@ -54,20 +54,20 @@ def update_frequency(frequency):
   #m.set_frequency(frequency)
 
   # update pickled information
-  set_pickle_minigen(m)
+  ###set_pickle_minigen(m)
 
   #close the conection
-  #m.close_connection()
+  m.close_connection()
 
 # attempt to grab pickeled information about minigen
 # if no pickle is found, create new minigen object
 def get_pickle_minigen():
   try:
     m = pickle.load( open( minigen_pickle_file, "rb" ) )
-    print "pickle loaded successfully"
+    #print "pickle loaded successfully"
   except:
     m = minigen.minigen()
-    print "new object created"
+    #print "new object created"
 
   return m
 
