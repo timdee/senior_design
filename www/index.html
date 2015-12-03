@@ -3,30 +3,22 @@
 
 <form action="/cgi-bin/update.py" method "post">
 <div>
-  Voltage: <input type="text" name="voltage"></input>V
+  Voltage: <input type="text" value="1" name="voltage"></input>V
   <!-- <button type="button" href="./cgi-bin/update.py?update_voltage=true&update_frequency=false&voltage=0&frequency=0"> Update Voltage </button> -->
 </div>
 
 <div>
-  Frequency: <input type="text" name="frequency"></input>Khz
+  Frequency: <input type="text" value="10" name="frequency"></input>Khz
   <!-- <button type="button" href="./cgi-bin/update.py?update_voltage=false&update_frequency=true&voltage=0&frequency=0"> Update Voltage </button> -->
   <input type="submit" value="update" />
 </div>
 </form>
 
-<form action="/cgi-bin/set_fields.py" method "post">
-<div>
-  <input type="submit" value="f=0,v=0" />
-</div>
-</form> 
-
-<!-- antequated
 <form action="/cgi-bin/git_update.bash" method "post">
 <div>
   <input type="submit" value="git_update" />
 </div>
-</form> 
--->
+</form>
 
 <form action="/cgi-bin/reset.py" method "post">
 <div>
